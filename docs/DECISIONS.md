@@ -353,7 +353,7 @@ bookings.booking_number
 ### 근거
 
 현재 핵심 병목은 상품 조회보다 한정 수량 재고 선점과 중복 요청 방지에 있음 \
-JPA entity를 그대로 Redis cache에 저장하는 방식은 타입 안정성과 lazy/loading 경계 측면에서 위험이 있어, 과제 범위에서는 cache를 제거하는 편이 안정적
+JPA entity를 그대로 Redis cache에 저장하는 방식은 타입 안정성과 lazy/loading 경계 측면에서 위험이 있어, cache를 제거하는 편이 안정적
 
 ---
 
