@@ -92,7 +92,7 @@ Response:
   "data": {
     "orderId": 1,
     "orderToken": "ORDER-20260503-0001",
-    "reservationNumber": "RES-1234ABCD",
+    "bookingNumber": "BOOK-1234ABCD",
     "orderStatus": "CONFIRMED",
     "totalAmount": 120000,
     "cardAmount": 100000,

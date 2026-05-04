@@ -105,7 +105,7 @@ sequenceDiagram
     Saga->>Point: use(userId, orderId, pointAmount)
     Point-->>Saga: point transaction saved
     Saga->>Booking: create(order, product)
-    Booking-->>Saga: Booking(reservationNumber)
+    Booking-->>Saga: Booking(bookingNumber)
     Saga->>Order: confirm(orderId)
     Order-->>Saga: Order(CONFIRMED)
     Saga-->>Facade: BookingResponse

@@ -18,8 +18,8 @@ public class BookingService {
     public Booking create(Order order, Product product) {
         Booking booking = Booking.create(order, product);
         bookingRepository.save(booking);
-        log.info("[Booking] 예약 생성 bookingId={}, reservationNumber={}",
-                booking.getId(), booking.getReservationNumber());
+        log.info("[Booking] 예약 생성 bookingId={}, bookingNumber={}",
+                booking.getId(), booking.getBookingNumber());
         return booking;
     }
 }

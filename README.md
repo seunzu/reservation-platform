@@ -127,3 +127,4 @@ com.reservation.platform
 - [Architecture Decisions](docs/DECISIONS.md)
 - [ERD](docs/erd.md)
 - [Sequence Diagram](docs/sequence-diagram.md)
+- [Test Plan](docs/test-plan.md)

@@ -8,7 +8,15 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payment_transactions")
+@Table(
+        name = "payment_transactions",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_payment_transactions_pg_transaction_id_type",
+                        columnNames = {"pg_transaction_id", "type"}
+                )
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PaymentTransaction {
@@ -20,7 +28,6 @@ public class PaymentTransaction {
     @Column(nullable = false)
     private Long paymentId;
 
-    @Column(unique = true)
     private String pgTransactionId;
 
     @Enumerated(EnumType.STRING)
