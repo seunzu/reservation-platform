@@ -128,3 +128,4 @@ com.reservation.platform
 - [ERD](docs/erd.md)
 - [Sequence Diagram](docs/sequence-diagram.md)
 - [Test Plan](docs/test-plan.md)
+- [AI Usage](/docs/ai-usage.md)
