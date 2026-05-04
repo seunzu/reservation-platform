@@ -313,3 +313,66 @@ Order(PENDING)
 - (+) Booking이 실패/대기/취소 같은 처리 상태를 중복 관리하지 않음
 - (+) 현재 API 범위에 없는 예약 취소 도메인 규칙을 미리 만들지 않음
 - (-) 향후 사용자 예약 취소 API가 추가되면 `BookingStatus` 또는 별도 cancellation 이력 모델을 다시 도입해야 함
+
+---
+
+## 10. Booking 번호 용어 통일
+
+### 상황
+
+코드와 API는 `BookingController`, `BookingService`, `/api/v1/bookings`, `bookings` table처럼 Booking 용어를 중심으로 구성되어 있음  \
+반면 응답 필드와 DB column이 `reservationNumber`, `reservation_number`이면 같은 도메인 개념을 서로 다른 용어로 표현하게 됨
+
+### 선택
+
+확정 예약 식별자는 `bookingNumber`로 통일
+
+```text
+Booking.bookingNumber
+BookingResponse.bookingNumber
+bookings.booking_number
+```
+
+### 근거
+
+내부 도메인, API path, table 이름이 모두 Booking을 사용하므로 응답 필드와 column도 같은 용어를 사용하는 편이 읽기 쉽고 변경 범위 추적도 단순함
+
+---
+
+## 11. 상품 Redis Cache 제거
+
+### 상황
+
+`ProductService.getProduct()`에 Redis cache를 적용하면 Redis 역직렬화 설정에 따라 `Product`가 아닌 `LinkedHashMap`으로 복원될 수 있음 \
+-> 실제 동시 예약 통합 테스트에서 cache hit 요청이 `ClassCastException`으로 실패
+
+### 선택
+
+상품 조회 cache를 제거하고 Redis 사용처를 재고 선점과 멱등성 처리에 집중
+
+### 근거
+
+현재 핵심 병목은 상품 조회보다 한정 수량 재고 선점과 중복 요청 방지에 있음 \
+JPA entity를 그대로 Redis cache에 저장하는 방식은 타입 안정성과 lazy/loading 경계 측면에서 위험이 있어, 과제 범위에서는 cache를 제거하는 편이 안정적
+
+---
+
+## 12. 결제 거래 이력 unique 제약
+
+### 상황
+
+PG 승인과 PG 취소는 같은 `pgTransactionId`를 공유할 수 있음 \
+`payment_transactions.pg_transaction_id`에 단일 unique 제약을 두면 승인 이력 저장 이후 취소 이력을 저장할 때 unique 제약 위반이 발생함
+
+### 선택
+
+결제 거래 이력은 `(pg_transaction_id, type)` 복합 unique로 관리
+
+```text
+APPROVE + pgTransactionId
+CANCEL  + pgTransactionId
+```
+
+### 근거
+
+같은 PG 거래에 대한 승인/취소 이벤트를 모두 남기면서, 같은 타입의 거래가 중복 저장되는 것은 방지할 수 있음

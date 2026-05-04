@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public record BookingResponse(
         Long orderId,
         String orderToken,
-        String reservationNumber,
+        String bookingNumber,
         String orderStatus,
         int totalAmount,
         int cardAmount,
@@ -20,7 +20,7 @@ public record BookingResponse(
         return new BookingResponse(
                 order.getId(),
                 order.getOrderToken(),
-                booking.getReservationNumber(),
+                booking.getBookingNumber(),
                 order.getStatus().name(),
                 payment.getTotalAmount(),
                 payment.getCardAmount(),

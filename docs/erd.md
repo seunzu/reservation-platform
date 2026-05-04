@@ -99,7 +99,7 @@ erDiagram
     BOOKINGS {
         bigint id PK
         bigint order_id
-        varchar reservation_number UK
+        varchar booking_number UK
         datetime check_in_at
         datetime check_out_at
         datetime created_at
@@ -118,14 +118,14 @@ erDiagram
 - `payment_transactions`: PG 승인/취소/실패 이력을 저장 (장애 분석과 수동 정산의 근거)
 - `points`: 사용자별 포인트 잔액 원장
 - `point_transactions`: 포인트 사용/환불 이력을 저장
-- `bookings`: 확정된 최종 예약 정보와 예약번호를 저장
+- `bookings`: 확정된 최종 예약 정보와 booking 번호를 저장
   - 처리 중/성공/실패 상태는 `orders.status`가 담당하므로 별도 예약 상태는 두지 않음
 
 ## 주요 제약
 
 - `users.email`: unique
 - `orders.order_token`: unique
-- `bookings.reservation_number`: unique
+- `bookings.booking_number`: unique
 - `payment_transactions.pg_transaction_id, type`: unique nullable
 
 ## DDL 예시
@@ -235,13 +235,13 @@ CREATE TABLE point_transactions (
 CREATE TABLE bookings (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_id BIGINT NOT NULL,
-  reservation_number VARCHAR(255) NOT NULL,
+  booking_number VARCHAR(255) NOT NULL,
   check_in_at DATETIME NOT NULL,
   check_out_at DATETIME NOT NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME,
   PRIMARY KEY (id),
-  UNIQUE KEY uk_bookings_reservation_number (reservation_number),
+  UNIQUE KEY uk_bookings_booking_number (booking_number),
   KEY idx_bookings_order_id (order_id)
 );
 

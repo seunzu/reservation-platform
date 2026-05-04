@@ -24,7 +24,7 @@ public class Booking {
     private Long orderId;
 
     @Column(nullable = false, unique = true)
-    private String reservationNumber;
+    private String bookingNumber;
 
     @Column(nullable = false)
     private LocalDateTime checkInAt;
@@ -40,15 +40,15 @@ public class Booking {
     public static Booking create(Order order, Product product) {
         Booking booking = new Booking();
         booking.orderId = order.getId();
-        booking.reservationNumber = generateReservationNumber();
+        booking.bookingNumber = generateBookingNumber();
         booking.checkInAt = product.getCheckInAt();
         booking.checkOutAt = product.getCheckOutAt();
         booking.createdAt = LocalDateTime.now();
         return booking;
     }
 
-    private static String generateReservationNumber() {
-        return "RES-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    private static String generateBookingNumber() {
+        return "BOOK-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
 }
