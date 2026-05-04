@@ -8,7 +8,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -32,8 +32,8 @@ public class RedisConfig {
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory,
                                                @Qualifier("redisObjectMapper") ObjectMapper redisObjectMapper) {
 
-        JacksonJsonRedisSerializer<Object> serializer =
-                new JacksonJsonRedisSerializer<>(redisObjectMapper, Object.class);
+        GenericJacksonJsonRedisSerializer serializer =
+                new GenericJacksonJsonRedisSerializer(redisObjectMapper);
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(10))
