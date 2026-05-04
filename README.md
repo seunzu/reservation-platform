@@ -1,5 +1,7 @@
 # Reservation Payment Platform
 
+[![CI (Build & Test)](https://github.com/seunzu/reservation-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/seunzu/reservation-platform/actions/workflows/ci.yml)
+
 특정 시각에 한정 수량으로 판매되는 상품을 예약하고 결제하는 서버 애플리케이션
 
 ## 기술 스택
@@ -128,4 +130,4 @@ com.reservation.platform
 - [ERD](docs/erd.md)
 - [Sequence Diagram](docs/sequence-diagram.md)
 - [Test Plan](docs/test-plan.md)
-- [AI Usage](/docs/ai-usage.md)
+- [AI Usage](docs/ai-usage.md)
