@@ -69,7 +69,7 @@ erDiagram
     PAYMENT_TRANSACTIONS {
         bigint id PK
         bigint payment_id
-        varchar pg_transaction_id UK
+        varchar pg_transaction_id
         varchar type
         int amount
         varchar status
@@ -126,7 +126,7 @@ erDiagram
 - `users.email`: unique
 - `orders.order_token`: unique
 - `bookings.reservation_number`: unique
-- `payment_transactions.pg_transaction_id`: unique nullable
+- `payment_transactions.pg_transaction_id, type`: unique nullable
 
 ## DDL 예시
 
@@ -204,7 +204,7 @@ CREATE TABLE payment_transactions (
   raw_response TEXT,
   created_at DATETIME NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY uk_payment_transactions_pg_transaction_id (pg_transaction_id),
+  UNIQUE KEY uk_payment_transactions_pg_transaction_id_type (pg_transaction_id, type),
   KEY idx_payment_transactions_payment_id (payment_id)
 );
 
